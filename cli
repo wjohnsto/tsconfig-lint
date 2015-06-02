@@ -1,0 +1,63 @@
+#!/usr/bin/env node
+'use strict';
+
+process.title = 'tslint-cli';
+
+var resolve = require('resolve');
+var exit = require('exit');
+
+resolve('tslint-cli', {
+  basedir: process.cwd()
+}, function(error, localCli) {
+  var cli;
+
+  if (error) {
+    cli = require('./index');
+  } else {
+    cli = require(localCli);
+  }
+
+	var args = process.argv.slice(2);
+
+  var useGlobIndex = args.indexOf('--use-glob');
+  
+  if(useGlobIndex < 0) {
+  	useGlobIndex = args.indexOf('-u');
+  }
+  
+  var useGlob = useGlobIndex > -1;
+  
+  if(useGlobIndex > -1) {
+    useGlob = true;
+  	args.splice(useGlobIndex, 1);
+  }
+console.log(useGlob);
+  var indentOptionIndex = args.indexOf('-i'),
+		indent = 4;
+
+	if(indentOptionIndex === -1) {
+		indentOptionIndex = args.indexOf('--indent');
+	}
+
+	if(indentOptionIndex > -1) {
+		indent = Number(args.splice(indentOptionIndex, 2)[1])
+	}
+
+  var cwd = process.cwd();
+
+  try {
+    cli({
+      args: args,
+      configPath: args[0] || '.',
+      cwd: cwd,
+      useGlob: useGlob,
+      tsconfigOptions: {
+        indent: indent
+      }
+    });
+    exit(0);
+  } catch(e) {
+    console.error(e);
+    exit(1);
+  }
+});
