@@ -1,7 +1,7 @@
 {
   "name": "tsconfig-lint",
   "version": "0.1.0",
-  "description": "A lightweight npm package + cli that allows you to specify glob patterns for tsconfig files",
+  "description": "A tsconfig tool for running tslint on files found in the tsconfig. Integrates with tsconfig-glob to allow for `filesGlob` in the tsconfig.json.",
   "main": "index.js",
   "bin": {
     "tsconfig-lint": "cli"
