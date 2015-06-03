@@ -115,6 +115,8 @@ export = function(options: IOptions): number {
 
 	if(configDir.indexOf('.json') === -1) {
 		filePath = path.resolve(configDir, 'tsconfig.json');
+	} else {
+		filePath = configDir;
 	}
 
 	var configFile: { filesGlob: Array<string>; files: Array<string>; } = require(filePath),

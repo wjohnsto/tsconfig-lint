@@ -31,7 +31,7 @@ resolve('tslint-cli', {
     useGlob = true;
   	args.splice(useGlobIndex, 1);
   }
-console.log(useGlob);
+
   var indentOptionIndex = args.indexOf('-i'),
 		indent = 4;
 

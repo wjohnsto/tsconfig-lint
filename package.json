@@ -1,14 +1,14 @@
 {
-  "name": "tslint-cli",
+  "name": "tsconfig-lint",
   "version": "0.1.0",
   "description": "A lightweight npm package + cli that allows you to specify glob patterns for tsconfig files",
   "main": "index.js",
   "bin": {
-    "tslint": "cli"
+    "tsconfig-lint": "cli"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/wjohnsto/tsconfig-glob.git"
+    "url": "https://github.com/wjohnsto/tsconfig-lint.git"
   },
   "keywords": [
     "tsconfig",
@@ -18,9 +18,9 @@
   "author": "Will Johnston <will@platypi.io>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/wjohnsto/tsconfig-glob/issues"
+    "url": "https://github.com/wjohnsto/tsconfig-lint/issues"
   },
-  "homepage": "https://github.com/wjohnsto/tsconfig-glob",
+  "homepage": "https://github.com/wjohnsto/tsconfig-lint",
   "dependencies": {
     "exit": "^0.1.2",
     "glob": "^5.0.10",
