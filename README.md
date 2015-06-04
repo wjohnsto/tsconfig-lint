@@ -34,10 +34,10 @@ tsconfig-lint .
 
 #### Options
 
-	```shell
+```shell
 	-u, --use-glob A flag indicating that tsconfig-glob should be executed on the .json file before running lint on the files.
 	-i, --indent <number> The number of spaces to indent the tsconfig.json file (defaults to 4). Only necessary if using --use-glob
-	```
+```
 
 ### Using with Node
 
