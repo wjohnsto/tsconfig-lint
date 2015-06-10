@@ -51,19 +51,38 @@ function findRules(config: { rules?: any; lintOptions?: any; }): { rules?: any; 
 	return config.lintOptions;
 }
 
-function lintFiles(files: Array<string>, config: { rules?: any; }): number {
+var es6 = false;
+
+function lintFile(file: string, config: { configuration?: { rules?: any; } }): Array<any> {
+    try {
+        return [(new Linter(file, fs.readFileSync(file, 'utf8'), config)).lint(), file];
+    }
+    catch (e) {
+        if(!es6 && e.message.indexOf('Cannot read property \'text\' of undefined') > -1) {
+            es6 = true;
+            delete config.configuration.rules.whitespace;
+            delete config.configuration.rules['no-use-before-declare'];
+            delete config.configuration.rules['no-unused-variable'];
+            cyan(`You are using the ES6 destructuring syntax (i.e. "import {isString} from \'lodash\';")
+We will remove the following rules allow linting files temporarily to lint these files:
+    noUnusedVariableRule
+    noUseBeforeDeclareRule
+    whitespaceRule`);
+            return lintFile(file, config);
+        }
+        return [{
+            failureCount: 0
+        }, file];
+    }
+}
+
+function lintFiles(files: Array<string>, config: { configuration?: { rules?: any; } }): number {
 	var failed = 0;
 
 	cyan('Linting ' + files.length + ' file' + (files.length === 1 ? '' : 's'));
 
 	files.map((file) => {
-			try {
-				return [(new Linter(file, fs.readFileSync(file, 'utf8'), config)).lint(), file];
-			} catch(e) {
-				return [{
-					failureCount: 0
-				}, file];
-			}
+			return lintFile(file, config);
 		})
 		.sort((resultA, resultB) => {
 			var a: { failureCount: number; } = resultA[0],
