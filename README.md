@@ -1,3 +1,6 @@
+[![npm version](https://badge.fury.io/js/tsconfig-lint.svg)](http://badge.fury.io/js/tsconfig-lint)
+[![Downloads](http://img.shields.io/npm/dm/tsconfig-lint.svg)](https://npmjs.org/package/tsconfig-lint)
+
 # tsconfig-lint
 A tsconfig tool for running [tslint](https://github.com/palantir/tslint) on files found in the tsconfig. Integrates with [tsconfig-glob](https://github.com/wjohnsto/tsconfig-glob) to allow for `filesGlob` in the tsconfig.json.
 
