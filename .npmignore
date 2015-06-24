@@ -27,5 +27,4 @@ build/Release
 node_modules
 typings
 *.ts
-tsconfig.json
 tsd.json
