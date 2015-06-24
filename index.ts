@@ -3,7 +3,9 @@ import * as path from 'path';
 import * as glob from 'glob';
 import * as util from 'util';
 import {EOL} from 'os';
+import {extend} from './utils';
 
+var defaultRules = require('./tsconfig.json').lintOptions;
 var Linter = require('tslint');
 var tsconfig = require('tsconfig-glob');
 
@@ -56,8 +58,7 @@ var es6 = false;
 function lintFile(file: string, config: { configuration?: { rules?: any; } }): Array<any> {
     try {
         return [(new Linter(file, fs.readFileSync(file, 'utf8'), config)).lint(), file];
-    }
-    catch (e) {
+    } catch (e) {
         if(!es6 && e.message.indexOf('Cannot read property \'text\' of undefined') > -1) {
             es6 = true;
             delete config.configuration.rules.whitespace;
@@ -150,7 +151,7 @@ export = function(options: IOptions): number {
 	}
 
 	var	files = unique(configFile.files || []),
-		configuration = findRules(configFile);
+		configuration = extend(true, undefined, defaultRules, findRules(configFile));
 
 	var failed = lintFiles(files, {
 		formatter: 'prose',
