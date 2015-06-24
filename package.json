@@ -1,6 +1,6 @@
 {
   "name": "tsconfig-lint",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A tsconfig tool for running tslint on files found in the tsconfig. Integrates with tsconfig-glob to allow for `filesGlob` in the tsconfig.json.",
   "main": "index.js",
   "bin": {
