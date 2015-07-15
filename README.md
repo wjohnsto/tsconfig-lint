@@ -1,5 +1,7 @@
 [![npm version](https://badge.fury.io/js/tsconfig-lint.svg)](http://badge.fury.io/js/tsconfig-lint)
 [![Downloads](http://img.shields.io/npm/dm/tsconfig-lint.svg)](https://npmjs.org/package/tsconfig-lint)
+[![Dependency Status](https://david-dm.org/wjohnsto/tsconfig-lint.svg)](https://david-dm.org/wjohnsto/tsconfig-lint)
+[![devDependency Status](https://david-dm.org/wjohnsto/tsconfig-lint/dev-status.svg)](https://david-dm.org/wjohnsto/tsconfig-lint#info=devDependencies)
 
 # tsconfig-lint
 A tsconfig tool for running [tslint](https://github.com/palantir/tslint) on files found in the tsconfig. Integrates with [tsconfig-glob](https://github.com/wjohnsto/tsconfig-glob) to allow for `filesGlob` in the tsconfig.json.
@@ -57,7 +59,7 @@ lint();
 	 * A relative path from cwd to the directory containing a tsconfig.json. If not specified, the '.' is used.
 	 */
 	configPath?: string;
-	
+
 	/**
 	 * The current working directory, defaults to `process.cwd()`
 	 */
@@ -73,7 +75,7 @@ lint();
 		 * The number of spaces to indent the tsconfig.json
 		 */
 		indent?: number;
-	};	
+	};
 
 }
 ```
