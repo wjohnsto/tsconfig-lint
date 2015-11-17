@@ -77,7 +77,7 @@ We will remove the following rules allow linting files temporarily to lint these
     }
 }
 
-function lintFiles(files: Array<string>, config: { configuration?: { rules?: any; } }): number {
+function lintFiles(files: Array<string>, config: { formatter?: string; configuration?: { rules?: any; } }): number {
 	var failed = 0;
 
 	cyan('Linting ' + files.length + ' file' + (files.length === 1 ? '' : 's'));
