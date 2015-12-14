@@ -48,7 +48,9 @@ tsconfig-lint .
 
 ```ts
 import * as lint from 'tsconfig-lint';
-lint();
+lint(undefined, (err) => {
+    //...
+});
 ```
 
 #### Options
@@ -90,6 +92,8 @@ lint({
 	tsconfigOptions: {
 		indent: 2
 	}
+}, (err) => {
+    //...
 });
 ```
 
