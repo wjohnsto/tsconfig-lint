@@ -20,13 +20,13 @@ resolve('tslint-cli', {
 	var args = process.argv.slice(2);
 
   var useGlobIndex = args.indexOf('--use-glob');
-  
+
   if(useGlobIndex < 0) {
   	useGlobIndex = args.indexOf('-u');
   }
-  
+
   var useGlob = useGlobIndex > -1;
-  
+
   if(useGlobIndex > -1) {
     useGlob = true;
   	args.splice(useGlobIndex, 1);
@@ -54,8 +54,13 @@ resolve('tslint-cli', {
       tsconfigOptions: {
         indent: indent
       }
+    }, function(err, success) {
+        if (!!err) {
+            console.log(err);
+        }
+
+        exit(success);
     });
-    exit(0);
   } catch(e) {
     console.error(e);
     exit(1);
