@@ -59,7 +59,7 @@ resolve('tslint-cli', {
             console.log(err);
         }
 
-        exit(success);
+        exit(0);
     });
   } catch(e) {
     console.error(e);
