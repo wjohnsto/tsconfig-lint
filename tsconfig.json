@@ -1,19 +1,33 @@
 {
     "lintOptions": {
         "rules": {
+            "align": [
+                true,
+                "parameters",
+                "statements"
+            ],
+            "ban": false,
             "class-name": true,
+            "comment-format": [
+                true,
+                "check-space"
+            ],
             "curly": true,
             "eofline": true,
             "forin": true,
             "indent": [
                 true,
-                4
+                "spaces"
             ],
             "interface-name": true,
             "jsdoc-format": true,
             "label-position": true,
             "label-undefined": true,
-            "max-line-length": false,
+            "max-line-length": [
+                true,
+                140
+            ],
+            "member-access": false,
             "member-ordering": [
                 true,
                 "public-before-private",
@@ -23,6 +37,8 @@
             "no-any": false,
             "no-arg": true,
             "no-bitwise": false,
+            "no-conditional-assignment": false,
+            "no-consecutive-blank-lines": true,
             "no-console": [
                 true,
                 "debug",
@@ -31,7 +47,6 @@
                 "timeEnd",
                 "trace"
             ],
-            "no-consecutive-blank-lines": true,
             "no-construct": true,
             "no-constructor-vars": false,
             "no-debugger": true,
@@ -39,13 +54,21 @@
             "no-duplicate-variable": true,
             "no-empty": false,
             "no-eval": true,
+            "no-inferrable-types": true,
+            "no-internal-module": true,
+            "no-null-keyword": false,
+            "no-require-imports": false,
+            "no-shadowed-variable": true,
             "no-string-literal": true,
-            "no-trailing-comma": true,
+            "no-switch-case-fall-through": false,
             "no-trailing-whitespace": true,
             "no-unreachable": true,
             "no-unused-expression": true,
             "no-unused-variable": false,
             "no-use-before-declare": true,
+            "no-var-keyword": true,
+            "no-var-requires": false,
+            "object-literal-sort-keys": true,
             "one-line": [
                 true,
                 "check-open-brace",
@@ -59,50 +82,37 @@
             ],
             "radix": true,
             "semicolon": true,
+            "switch-default": true,
+            "trailing-comma": [
+                true,
+                {
+                    "multiline": "always",
+                    "singleline": "never"
+                }
+            ],
             "triple-equals": [
                 true,
                 "allow-null-check"
             ],
             "typedef": [
                 true,
-                "property-declaration",
-                "member-variable-declaration",
-                "call-signature"
+                "call-signature",
+                "property-declaration"
             ],
             "typedef-whitespace": [
                 true,
-                [
-                    "call-signature",
-                    "nospace"
-                ],
-                [
-                    "catch-clause",
-                    "nospace"
-                ],
-                [
-                    "index-signature",
-                    "space"
-                ],
-                [
-                    "parameter",
-                    "nospace"
-                ],
-                [
-                    "property-declaration",
-                    "nospace"
-                ],
-                [
-                    "variable-declaration",
-                    "nospace"
-                ]
+                {
+                    "call-signature": "nospace",
+                    "index-signature": "nospace",
+                    "parameter": "nospace",
+                    "property-declaration": "nospace",
+                    "variable-declaration": "nospace"
+                }
             ],
-            "use-strict": [
-                true,
-                "check-module"
-            ],
+            "use-strict": true,
             "variable-name": false,
             "whitespace": [
-                false,
+                true,
                 "check-branch",
                 "check-decl",
                 "check-operator",
@@ -113,7 +123,7 @@
     },
     "compilerOptions": {
         "module": "commonjs",
-        "target": "ES5",
+        "target": "es5",
         "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,

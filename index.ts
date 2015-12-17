@@ -5,12 +5,12 @@ import * as util from 'util';
 import {EOL} from 'os';
 import {extend} from './utils';
 
-var defaultRules = require('./tsconfig.json').lintOptions;
-var Linter = require('tslint');
-var tsconfig = require('tsconfig-glob');
+let defaultRules = require('./tsconfig.json').lintOptions;
+let Linter = require('tslint');
+let tsconfig = require('tsconfig-glob');
 
-function log(color?: Array<number>, lighten: number = 0): (message: string) => void {
-    var strColor: Array<string>;
+function log(color?: Array<number>, lighten = 0): (message: string) => void {
+    let strColor: Array<string>;
 
     if (Array.isArray(color)) {
         strColor = ['\033[' + (color[0] + lighten) + 'm', '\033[' + color[1] + 'm'];
@@ -23,17 +23,17 @@ function log(color?: Array<number>, lighten: number = 0): (message: string) => v
     };
 }
 
-var colors = (<any>util.inspect).colors,
+let colors = (<any>util.inspect).colors,
     red = log(colors.red, 60),
     green = log(colors.green),
     cyan = log(colors.cyan),
     normal = log();
 
 function unique(arr: Array<string>): Array<string> {
-    var keys: { [key: string]: boolean; } = {},
+    let keys: { [key: string]: boolean; } = {},
         out: Array<string> = [];
 
-    for (var i = 0, l = arr.length; i < l; ++i) {
+    for (let i = 0, l = arr.length; i < l; ++i) {
         if (keys.hasOwnProperty(arr[i])) {
             continue;
         }
@@ -53,7 +53,7 @@ function findRules(config: { rules?: any; lintOptions?: any; }): { rules?: any; 
     return config.lintOptions;
 }
 
-var es6 = false;
+let es6 = false;
 
 function lintFile(file: string, config: { configuration?: { rules?: any; } }): Array<any> {
     try {
@@ -78,7 +78,7 @@ We will remove the following rules allow linting files temporarily to lint these
 }
 
 function lintFiles(files: Array<string>, config: { formatter?: string; configuration?: { rules?: any; } }): number {
-    var failed = 0;
+    let failed = 0;
 
     cyan('Linting ' + files.length + ' file' + (files.length === 1 ? '' : 's'));
 
@@ -86,7 +86,7 @@ function lintFiles(files: Array<string>, config: { formatter?: string; configura
         return lintFile(file, config);
     })
         .sort((resultA, resultB) => {
-            var a: { failureCount: number; } = resultA[0],
+            let a: { failureCount: number; } = resultA[0],
                 b: { failureCount: number; } = resultB[0];
 
             if (a.failureCount > b.failureCount) {
@@ -100,7 +100,7 @@ function lintFiles(files: Array<string>, config: { formatter?: string; configura
             return 0;
         })
         .map((results) => {
-            var result = results[0];
+            let result = results[0];
 
             if (result.failureCount <= 0) {
                 return '';
@@ -129,7 +129,7 @@ function lintFiles(files: Array<string>, config: { formatter?: string; configura
 }
 
 export = function(options: IOptions, done: (err?: any, success?: number) => void): void {
-    var root = options.cwd || process.cwd(),
+    let root = options.cwd || process.cwd(),
         configDir = path.resolve(root, options.configPath || '.'),
         filePath: string;
 
@@ -139,7 +139,7 @@ export = function(options: IOptions, done: (err?: any, success?: number) => void
         filePath = configDir;
     }
 
-    var configFile: { filesGlob: Array<string>; files: Array<string>; } = require(filePath),
+    let configFile: { filesGlob: Array<string>; files: Array<string>; } = require(filePath),
         useGlob = options.useGlob;
 
     if (useGlob) {
@@ -160,15 +160,15 @@ export = function(options: IOptions, done: (err?: any, success?: number) => void
     }
 
     function lint(): void {
-        var files = unique(configFile.files || []),
+        let files = unique(configFile.files || []),
             configuration = extend(true, undefined, defaultRules, findRules(configFile));
 
-        var failed = lintFiles(files, {
+        let failed = lintFiles(files, {
             formatter: 'prose',
             configuration: configuration
         });
 
-        var message = 'Done with ' + failed + ' failures.';
+        let message = 'Done with ' + failed + ' failures.';
 
         if (failed > 0) {
             red(message);
