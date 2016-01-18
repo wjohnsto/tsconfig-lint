@@ -3,7 +3,6 @@
         "rules": {
             "align": [
                 true,
-                "parameters",
                 "statements"
             ],
             "ban": false,
