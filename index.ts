@@ -70,6 +70,8 @@ We will remove the following rules allow linting files temporarily to lint these
     noUseBeforeDeclareRule
     whitespaceRule`);
             return lintFile(file, config);
+        } else if (e.code === 'ENOENT') {
+           red(`File ${file} not found.`);
         }
         return [{
             failureCount: 0
@@ -114,7 +116,6 @@ function lintFiles(files: Array<string>, config: { formatter?: string; configura
                     if (line === '') {
                         return;
                     }
-
                     return line;
                 }).join(EOL);
         }).forEach((value) => {
@@ -128,7 +129,7 @@ function lintFiles(files: Array<string>, config: { formatter?: string; configura
     return failed;
 }
 
-export = function(options: IOptions, done: (err?: any, success?: number) => void): void {
+export = function(options: IOptions, done: (err?: any, success?: number) => void) {
     let root = options.cwd || process.cwd(),
         configDir = path.resolve(root, options.configPath || '.'),
         filePath: string;
@@ -160,7 +161,9 @@ export = function(options: IOptions, done: (err?: any, success?: number) => void
     }
 
     function lint(): void {
-        let files = unique(configFile.files || []),
+        let files = unique(configFile.files || []).map((file) => {
+                return path.resolve(filePath, '..', file);
+            }),
             configuration = extend(true, undefined, defaultRules, findRules(configFile));
 
         let failed = lintFiles(files, {

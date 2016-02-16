@@ -126,12 +126,12 @@
         "sourceMap": false
     },
     "filesGlob": [
-        "typings/main.d.ts",
-        "*.ts"
+        "../typings/main.d.ts",
+        "../*.ts"
     ],
     "files": [
-        "typings/main.d.ts",
-        "index.ts",
-        "utils.ts"
+        "../typings/main.d.ts",
+        "../index.ts",
+        "../utils.ts"
     ]
 }

@@ -23,18 +23,21 @@
   "homepage": "https://github.com/wjohnsto/tsconfig-lint",
   "dependencies": {
     "exit": "^0.1.2",
-    "glob": "^6.0.1",
-    "resolve": "^1.1.6",
-    "tsconfig-glob": "^0.4.0",
+    "glob": "^7.0.0",
+    "resolve": "^1.1.7",
+    "tsconfig-glob": "^0.4.1",
     "tslint": "^2.5.1"
   },
   "devDependencies": {
-    "typescript": "1.6.2"
+    "typescript": "^1.7.5",
+    "typings": "^0.6.8"
   },
   "scripts": {
-    "prepublish": "npm run build",
-    "build": "tsc -p .",
+    "prepublish": "npm run typings && npm run build",
+    "build": "npm run tsconfig && tsc -p .",
     "cli": "npm run build && node cli",
-    "test": "npm run cli"
+    "test": "npm run cli",
+    "tsconfig": "tsconfig",
+    "typings": "typings install"
   }
 }

@@ -1,5 +1,5 @@
 /* tslint:disable:no-unused-variable */
-var __nativeIsArray = !!Array.isArray,
+let __nativeIsArray = !!Array.isArray,
     __objToString = Object.prototype.toString,
     __toStringClass = '[object ',
     __errorClass = __toStringClass + 'Error]',
@@ -36,7 +36,7 @@ export function extend(deep: boolean, redefine: any, destination: any, ...source
         return destination;
     }
 
-    var keys: Array<string>,
+    let keys: Array<string>,
         property: any,
         define: (obj: any, key: string, value: any) => void;
 
@@ -103,7 +103,7 @@ export function clone(obj: any, deep?: boolean): any {
         return new obj.constructor((<Error>obj).message);
     }
 
-    var type = {};
+    let type = {};
 
     if (isArray(obj)) {
         type = [];
@@ -219,7 +219,7 @@ export function forEach<T>(iterator: (value: T, key: any, obj: any) => void, obj
         return obj;
     }
 
-    var i: number,
+    let i: number,
         key: string,
         length: number;
 
@@ -230,7 +230,7 @@ export function forEach<T>(iterator: (value: T, key: any, obj: any) => void, obj
             iterator.call(context, obj[i], i, obj);
         }
     } else {
-        var keys = Object.keys(obj);
+        let keys = Object.keys(obj);
         length = keys.length;
         while (keys.length > 0) {
             key = keys.shift();
