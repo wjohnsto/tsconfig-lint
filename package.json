@@ -25,6 +25,7 @@
     "exit": "^0.1.2",
     "glob": "^7.0.0",
     "resolve": "^1.1.7",
+    "stable": "^0.1.5",
     "tsconfig-glob": "^0.4.1",
     "tslint": "^2.5.1"
   },

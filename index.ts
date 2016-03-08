@@ -4,6 +4,7 @@ import * as glob from 'glob';
 import * as util from 'util';
 import {EOL} from 'os';
 import {extend} from './utils';
+const stable: any = require('stable');
 
 let defaultRules = require('./tsconfig.json').lintOptions;
 let Linter = require('tslint');
@@ -45,6 +46,81 @@ function unique(arr: Array<string>): Array<string> {
     return out;
 }
 
+function sort(a: string, b: string): number {
+    let aTsd = a.indexOf('tsd.d.ts') > -1,
+        bTsd = b.indexOf('tsd.d.ts') > -1,
+        aD = a.indexOf('.d.ts') > -1,
+        bD = b.indexOf('.d.ts') > -1;
+
+    if (aTsd) {
+        return -1;
+    }
+
+    if (bTsd) {
+        return 1;
+    }
+
+    if (aD && bD) {
+        return 0;
+    }
+
+    if (aD) {
+        return -1;
+    }
+
+    if (bD) {
+        return 1;
+    }
+
+    return 0;
+}
+
+function getFiles(options: IOptions, configFile: IConfigFile): Array<string> {
+    let root = options.cwd || process.cwd(),
+        configDir = path.resolve(root, options.configPath || '.'),
+        exclude: Array<string> = configFile.exclude || [],
+        files: Array<string> = configFile.files || [];
+
+    if (files.length === 0) {
+        exclude = exclude.map((file) => {
+            if (file.slice(file.length - 3) !== '.ts') {
+                file = file + '/**/*.ts';
+            }
+
+            return '!' + file;
+        });
+
+        files = ['**/*.ts'].concat(exclude);
+    }
+
+    files = unique(files);
+
+    let include = files.filter((file) => {
+        return file[0] !== '!';
+    }),
+        ignore = files.filter((file) => {
+            return file[0] === '!';
+        }),
+        sortedFiles: Array<Array<string>> = [];
+
+    for (let pattern of include) {
+        sortedFiles.push(glob.sync(pattern, {
+            cwd: configDir,
+            ignore: ignore.map(file => file.slice(1))
+        } as glob.IOptions));
+    }
+
+    sortedFiles = sortedFiles.map((files) => {
+        return stable(files);
+    });
+
+    files = unique(sortedFiles.reduce((files, current) => {
+        return files.concat(current);
+    }, []));
+
+    return stable(files, sort);
+}
+
 function findRules(config: { rules?: any; lintOptions?: any; }): { rules?: any; } {
     if (config.hasOwnProperty('rules')) {
         return config;
@@ -71,7 +147,7 @@ We will remove the following rules allow linting files temporarily to lint these
     whitespaceRule`);
             return lintFile(file, config);
         } else if (e.code === 'ENOENT') {
-           red(`File ${file} not found.`);
+            red(`File ${file} not found.`);
         }
         return [{
             failureCount: 0
@@ -129,7 +205,7 @@ function lintFiles(files: Array<string>, config: { formatter?: string; configura
     return failed;
 }
 
-export = function(options: IOptions, done: (err?: any, success?: number) => void) {
+export = function(options: IOptions, done: (err?: any, success?: number) => void): void {
     let root = options.cwd || process.cwd(),
         configDir = path.resolve(root, options.configPath || '.'),
         filePath: string;
@@ -140,7 +216,7 @@ export = function(options: IOptions, done: (err?: any, success?: number) => void
         filePath = configDir;
     }
 
-    let configFile: { filesGlob: Array<string>; files: Array<string>; } = require(filePath),
+    let configFile: IConfigFile = require(filePath),
         useGlob = options.useGlob;
 
     if (useGlob) {
@@ -161,9 +237,9 @@ export = function(options: IOptions, done: (err?: any, success?: number) => void
     }
 
     function lint(): void {
-        let files = unique(configFile.files || []).map((file) => {
-                return path.resolve(filePath, '..', file);
-            }),
+        let files = getFiles(options, configFile).map((file) => {
+            return path.resolve(filePath, '..', file);
+        }),
             configuration = extend(true, undefined, defaultRules, findRules(configFile));
 
         let failed = lintFiles(files, {
@@ -182,6 +258,12 @@ export = function(options: IOptions, done: (err?: any, success?: number) => void
         done(undefined, failed);
     }
 };
+
+interface IConfigFile {
+    exclude?: Array<string>;
+    filesGlob?: Array<string>;
+    files?: Array<string>;
+}
 
 interface IOptions {
     args?: Array<string>;
