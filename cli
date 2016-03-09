@@ -43,6 +43,16 @@ resolve('tslint-cli', {
 		indent = Number(args.splice(indentOptionIndex, 2)[1])
 	}
 
+  var tsLintConfigFileOptionIndex = args.indexOf('--config');
+  if(tsLintConfigFileOptionIndex < 0) {
+    tsLintConfigFileOptionIndex = args.indexOf('-c');
+  }
+
+  var tsLintConfigFilePath = null;
+  if(tsLintConfigFileOptionIndex > -1) {
+      tsLintConfigFilePath = args.splice(tsLintConfigFileOptionIndex,2)[1];
+  }
+
   var cwd = process.cwd();
 
   try {
@@ -53,7 +63,8 @@ resolve('tslint-cli', {
       useGlob: useGlob,
       tsconfigOptions: {
         indent: indent
-      }
+      },
+      tsLintConfigFilePath: tsLintConfigFilePath || 'tslint.json'
     }, function(err, success) {
         if (!!err) {
             console.log(err);

@@ -206,9 +206,10 @@ function lintFiles(files: Array<string>, config: { formatter?: string; configura
 }
 
 export = function(options: IOptions, done: (err?: any, success?: number) => void): void {
-    let root = options.cwd || process.cwd(),
-        configDir = path.resolve(root, options.configPath || '.'),
-        filePath: string;
+    let root = options.cwd || process.cwd();
+    let configDir = path.resolve(root, options.configPath || '.');
+    let tsLintConfigFilePath = path.resolve(configDir, options.tsLintConfigFilePath || 'tslint.json');
+    let filePath: string;
 
     if (configDir.indexOf('.json') === -1) {
         filePath = path.resolve(configDir, 'tsconfig.json');
@@ -216,9 +217,9 @@ export = function(options: IOptions, done: (err?: any, success?: number) => void
         filePath = configDir;
     }
 
-    let configFile: IConfigFile = require(filePath),
-        useGlob = options.useGlob;
+    let configFile: IConfigFile = require(filePath);
 
+    let useGlob = options.useGlob;
     if (useGlob) {
         configFile = tsconfig({
             cwd: root,
@@ -239,8 +240,19 @@ export = function(options: IOptions, done: (err?: any, success?: number) => void
     function lint(): void {
         let files = getFiles(options, configFile).map((file) => {
             return path.resolve(filePath, '..', file);
-        }),
+        });
+
+        let configuration: any = null;
+        try {
+            // the tslint configuration file exists
+            fs.accessSync(tsLintConfigFilePath, fs.F_OK);
+            let tsLintConfigFile = require(tsLintConfigFilePath);
+            // in this case we fully respect the configuration it defines (i.e., no defaultRules merging)
+            configuration = extend(true, undefined, {}, findRules(tsLintConfigFile));
+        } catch (e) {
+            // no tslint configuration file available
             configuration = extend(true, undefined, defaultRules, findRules(configFile));
+        }
 
         let failed = lintFiles(files, {
             formatter: 'prose',
@@ -273,4 +285,5 @@ interface IOptions {
     tsconfigOptions: {
         indent?: number;
     };
+    tsLintConfigFilePath?: string;
 }

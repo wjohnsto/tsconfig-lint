@@ -26,11 +26,16 @@ npm install -g tsconfig-lint --save-dev
 
 You can use this library as either a CLI or in a node script. It follows a similar format to the [atom-typescript](https://github.com/TypeStrong/atom-typescript/blob/master/docs/tsconfig.md) plugin:
 
-0. You provide a path to a directory containing a tsconfig.json
+0. You provide a path to a directory containing a tsconfig.json file
   - You can also provide the full path to a `.json` file that contains a `files` or `filesGlob` property along with your tslint rules.
 0. You specify a `files` pattern in your tsconfig.json
 0. You specify a `lintOptions` property in your tsconfig.json that contains your tslint rules.
-  - If you do not specify `lintOptions`, the default tslint rules will be used.
+  - If you do not specify `lintOptions`, the default tslint rules will be used
+
+You can also put your tslint rules in a separate file. By default, tsconfig-lint will look for `tslint.json` (you can override the name if needed).
+If the file is found, then:
+ * the rules defined in it will be used
+ * lintOptions will be ignored
 
 ### Using the CLI
 ```shell
@@ -40,6 +45,7 @@ tsconfig-lint .
 #### Options
 
 ```shell
+	-c, --config The name of the tslint configuration file; if not provided, 'tslint.json' will be used
 	-u, --use-glob A flag indicating that tsconfig-glob should be executed on the .json file before running lint on the files.
 	-i, --indent <number> The number of spaces to indent the tsconfig.json file (defaults to 4). Only necessary if using --use-glob
 ```
@@ -78,6 +84,11 @@ lint(undefined, (err) => {
 		 */
 		indent?: number;
 	};
+
+	/**
+	 * A relative path from the configPath to the tslint configuration file.
+	 */
+	tsLintConfigFilePath?: string;
 
 }
 ```
