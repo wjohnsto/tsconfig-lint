@@ -14,7 +14,7 @@ function log(color?: Array<number>, lighten = 0): (message: string) => void {
     let strColor: Array<string>;
 
     if (Array.isArray(color)) {
-        strColor = ['\033[' + (color[0] + lighten) + 'm', '\033[' + color[1] + 'm'];
+        strColor = ['\x1B[' + (color[0] + lighten) + 'm', '\x1B[' + color[1] + 'm'];
     } else {
         strColor = ['', ''];
     }
