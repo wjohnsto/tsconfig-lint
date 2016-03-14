@@ -27,8 +27,8 @@ npm install -g tsconfig-lint --save-dev
 You can use this library as either a CLI or in a node script. It follows a similar format to the [atom-typescript](https://github.com/TypeStrong/atom-typescript/blob/master/docs/tsconfig.md) plugin:
 
 0. You provide a path to a directory containing a tsconfig.json file
-  - You can also provide the full path to a `.json` file that contains a `files` or `filesGlob` property along with your tslint rules.
-0. You specify a `files` pattern in your tsconfig.json
+  - You can also provide the full path to a `.json` file that contains an `exclude`, `files` or `filesGlob` property along with your tslint rules.
+0. You specify an `exclude`, `files`, or `filesGlob` pattern in your tsconfig.json
 0. You specify a `lintOptions` property in your tsconfig.json that contains your tslint rules.
   - If you do not specify `lintOptions`, the default tslint rules will be used
 
@@ -46,7 +46,7 @@ tsconfig-lint .
 
 ```shell
 	-c, --config The name of the tslint configuration file; if not provided, 'tslint.json' will be used
-	-u, --use-glob A flag indicating that tsconfig-glob should be executed on the .json file before running lint on the files.
+	-u, --use-glob A flag indicating that `filesGlob` should be used in place of `files` for determining the files to lint.
 	-i, --indent <number> The number of spaces to indent the tsconfig.json file (defaults to 4). Only necessary if using --use-glob
 ```
 
@@ -74,7 +74,7 @@ lint(undefined, (err) => {
 	cwd?: string;
 
 	/**
-	 * Whether or not tsconfig-glob should be executed on the .json file before running lint on the files.
+	 * Whether or not `filesGlob` should be used in place of `files` for determining the files to lint.
 	 */
 	useGlob?: boolean;
 

@@ -81,6 +81,10 @@ function getFiles(options: IOptions, configFile: IConfigFile): Array<string> {
         exclude: Array<string> = configFile.exclude || [],
         files: Array<string> = configFile.files || [];
 
+    if (options.useGlob) {
+        files = configFile.filesGlob || [];
+    }
+
     if (files.length === 0) {
         exclude = exclude.map((file) => {
             if (file.slice(file.length - 3) !== '.ts') {
@@ -219,23 +223,7 @@ export = function(options: IOptions, done: (err?: any, success?: number) => void
 
     let configFile: IConfigFile = require(filePath);
 
-    let useGlob = options.useGlob;
-    if (useGlob) {
-        configFile = tsconfig({
-            cwd: root,
-            configPath: options.configPath,
-            indent: options.tsconfigOptions && options.tsconfigOptions.indent
-        }, (err: any) => {
-            if (!!err) {
-                done(err);
-                return;
-            }
-
-            lint();
-        });
-    } else {
-        lint();
-    }
+    lint();
 
     function lint(): void {
         let files = getFiles(options, configFile).map((file) => {
