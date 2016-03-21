@@ -94,7 +94,7 @@ function getFiles(options: IOptions, configFile: IConfigFile): Array<string> {
             return '!' + file;
         });
 
-        files = ['**/*.ts'].concat(exclude);
+        files = ['**/*.ts'].concat(exclude, ['!typings/**/*.ts']);
     }
 
     files = unique(files);
