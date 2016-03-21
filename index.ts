@@ -94,10 +94,10 @@ function getFiles(options: IOptions, configFile: IConfigFile): Array<string> {
             return '!' + file;
         });
 
-        files = ['**/*.ts'].concat(exclude, ['!typings/**/*.ts']);
+        files = ['**/*.ts'].concat(exclude);
     }
 
-    files = unique(files);
+    files = unique(files.concat(['!typings/**/*.ts']));
 
     let include = files.filter((file) => {
         return file[0] !== '!';
