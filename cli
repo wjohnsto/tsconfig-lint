@@ -7,73 +7,77 @@ var resolve = require('resolve');
 var exit = require('exit');
 
 resolve('tslint-cli', {
-  basedir: process.cwd()
+    basedir: process.cwd()
 }, function(error, localCli) {
-  var cli;
+    var cli;
 
-  if (error) {
-    cli = require('./index');
-  } else {
-    cli = require(localCli);
-  }
+    if (error) {
+        cli = require('./index');
+    } else {
+        cli = require(localCli);
+    }
 
-	var args = process.argv.slice(2);
+    var args = process.argv.slice(2);
 
-  var useGlobIndex = args.indexOf('--use-glob');
+    var useGlobIndex = args.indexOf('--use-glob');
 
-  if(useGlobIndex < 0) {
-  	useGlobIndex = args.indexOf('-u');
-  }
+    if (useGlobIndex < 0) {
+        useGlobIndex = args.indexOf('-u');
+    }
 
-  var useGlob = useGlobIndex > -1;
+    var useGlob = useGlobIndex > -1;
 
-  if(useGlobIndex > -1) {
-    useGlob = true;
-  	args.splice(useGlobIndex, 1);
-  }
+    if (useGlobIndex > -1) {
+        useGlob = true;
+        args.splice(useGlobIndex, 1);
+    }
 
-  var indentOptionIndex = args.indexOf('-i'),
-		indent = 4;
+    var indentOptionIndex = args.indexOf('-i'),
+        indent = 4;
 
-	if(indentOptionIndex === -1) {
-		indentOptionIndex = args.indexOf('--indent');
-	}
+    if (indentOptionIndex === -1) {
+        indentOptionIndex = args.indexOf('--indent');
+    }
 
-	if(indentOptionIndex > -1) {
-		indent = Number(args.splice(indentOptionIndex, 2)[1])
-	}
+    if (indentOptionIndex > -1) {
+        indent = Number(args.splice(indentOptionIndex, 2)[1])
+    }
 
-  var tsLintConfigFileOptionIndex = args.indexOf('--config');
-  if(tsLintConfigFileOptionIndex < 0) {
-    tsLintConfigFileOptionIndex = args.indexOf('-c');
-  }
+    var tsLintConfigFileOptionIndex = args.indexOf('--config');
+    if (tsLintConfigFileOptionIndex < 0) {
+        tsLintConfigFileOptionIndex = args.indexOf('-c');
+    }
 
-  var tsLintConfigFilePath = null;
-  if(tsLintConfigFileOptionIndex > -1) {
-      tsLintConfigFilePath = args.splice(tsLintConfigFileOptionIndex,2)[1];
-  }
+    var tsLintConfigFilePath = null;
+    if (tsLintConfigFileOptionIndex > -1) {
+        tsLintConfigFilePath = args.splice(tsLintConfigFileOptionIndex, 2)[1];
+    }
 
-  var cwd = process.cwd();
+    var cwd = process.cwd();
 
-  try {
-    cli({
-      args: args,
-      configPath: args[0] || '.',
-      cwd: cwd,
-      useGlob: useGlob,
-      tsconfigOptions: {
-        indent: indent
-      },
-      tsLintConfigFilePath: tsLintConfigFilePath || 'tslint.json'
-    }, function(err, success) {
-        if (!!err) {
-            console.log(err);
-        }
+    try {
+        cli({
+            args: args,
+            configPath: args[0] || '.',
+            cwd: cwd,
+            useGlob: useGlob,
+            tsconfigOptions: {
+                indent: indent
+            },
+            tsLintConfigFilePath: tsLintConfigFilePath || 'tslint.json'
+        }, function(err, success) {
+            if (!!err) {
+                console.log(err);
+            }
 
-        exit(0);
-    });
-  } catch(e) {
-    console.error(e);
-    exit(1);
-  }
+            if (success > 0) {
+                success = 1;
+            }
+
+            exit(success);
+        });
+    } catch (e) {
+        console.error(e);
+        exit(1);
+    }
 });
