@@ -53,6 +53,19 @@ resolve('tslint-cli', {
         tsLintConfigFilePath = args.splice(tsLintConfigFileOptionIndex, 2)[1];
     }
 
+    var passiveIndex = args.indexOf('--passive');
+
+    if (passiveIndex < 0) {
+        passiveIndex = args.indexOf('-p');
+    }
+
+    var passive = passiveIndex > -1;
+
+    if (passiveIndex > -1) {
+        passive = true;
+        args.splice(passiveIndex, 1);
+    }
+
     var cwd = process.cwd();
 
     try {
@@ -61,6 +74,7 @@ resolve('tslint-cli', {
             configPath: args[0] || '.',
             cwd: cwd,
             useGlob: useGlob,
+            passive: passive,
             tsconfigOptions: {
                 indent: indent
             },
@@ -70,7 +84,7 @@ resolve('tslint-cli', {
                 console.log(err);
             }
 
-            if (success > 0) {
+            if (!passive && success > 0) {
                 success = 1;
             }
 

@@ -270,6 +270,7 @@ interface IOptions {
     configPath?: string;
     cwd?: string;
     useGlob?: boolean;
+    passive?: boolean;
     tsconfigOptions: {
         indent?: number;
     };

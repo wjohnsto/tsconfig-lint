@@ -48,6 +48,7 @@ tsconfig-lint .
 	-c, --config The name of the tslint configuration file; if not provided, 'tslint.json' will be used
 	-u, --use-glob A flag indicating that `filesGlob` should be used in place of `files` for determining the files to lint.
 	-i, --indent <number> The number of spaces to indent the tsconfig.json file (defaults to 4). Only necessary if using --use-glob
+    -p, --passive A flag indicating whether or not the script should exit with 1 on fail. If `passive` is specified, failures will still be sent with 0.
 ```
 
 ### Using with Node
