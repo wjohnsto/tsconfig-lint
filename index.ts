@@ -8,7 +8,6 @@ const stable: any = require('stable');
 
 let defaultRules = require('./tsconfig.json').lintOptions;
 let Linter = require('tslint');
-let tsconfig = require('tsconfig-glob');
 
 function log(color?: Array<number>, lighten = 0): (message: string) => void {
     let strColor: Array<string>;
