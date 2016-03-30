@@ -34,10 +34,9 @@
   },
   "scripts": {
     "prepublish": "npm run typings && npm run build",
-    "build": "npm run tsconfig && tsc -p .",
+    "build": "tsc -p .",
     "cli": "npm run build && node cli",
     "test": "npm run cli",
-    "tsconfig": "tsconfig",
     "typings": "typings install"
   }
 }
