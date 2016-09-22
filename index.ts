@@ -81,7 +81,7 @@ function getFiles(options: IOptions, configFile: IConfigFile): Array<string> {
         files: Array<string> = configFile.files || [];
 
     if (options.useGlob) {
-        files = configFile.filesGlob || [];
+        files = configFile.include || configFile.filesGlob || [];
     }
 
     if (files.length === 0) {
@@ -261,6 +261,7 @@ export = function(options: IOptions, done: (err?: any, success?: number) => void
 interface IConfigFile {
     exclude?: Array<string>;
     filesGlob?: Array<string>;
+    include?: Array<string>;
     files?: Array<string>;
 }
 

@@ -1,3 +1,6 @@
+# ts-glob deprecation notice
+This package currently uses tsconfig-glob. However in the next major release it will be removed in favor of using the "include" property for [TypeScript 2.0](https://github.com/Microsoft/TypeScript/wiki/What's-new-in-TypeScript#user-content-glob-support-in-tsconfigjson)
+
 [![npm version](https://badge.fury.io/js/tsconfig-lint.svg)](http://badge.fury.io/js/tsconfig-lint)
 [![Downloads](http://img.shields.io/npm/dm/tsconfig-lint.svg)](https://npmjs.org/package/tsconfig-lint)
 [![Dependency Status](https://david-dm.org/wjohnsto/tsconfig-lint.svg)](https://david-dm.org/wjohnsto/tsconfig-lint)
